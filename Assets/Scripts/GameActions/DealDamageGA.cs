@@ -12,6 +12,7 @@ public class DealDamageGA : GameAction, IHaveCaster
         Amount = amount;
         Targets = new List<CombatantView>(targets);
         Caster = caster;
+        Debug.Log($"创建伤害事件：对{Targets.Count}个目标造成{Amount}点伤害，施法者：{caster.name}");
     }
 
 }

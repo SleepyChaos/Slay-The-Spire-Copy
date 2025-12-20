@@ -14,5 +14,6 @@ public class AddStatusEffectGA : GameAction
         StatusEffectType = statusEffectType;
         StackCount = stackCount;
         Targets = targets;
+        Debug.Log($"创建添加状态事件：{statusEffectType} 层数 {stackCount}，目标数：{targets.Count}");
     }
 }

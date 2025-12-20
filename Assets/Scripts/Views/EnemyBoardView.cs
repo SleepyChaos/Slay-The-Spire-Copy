@@ -17,6 +17,7 @@ public class EnemyBoardView : MonoBehaviour
     /// <param name="enemyData"></param>
     public void AddEnemy(EnemyData enemyData)
     {
+        Debug.Log($"敌人面板：添加敌人 {enemyData.name}");
         Transform slot = slots[EnemyViews.Count];
         EnemyView enemyView = EnemyViewCreator.Instance.CreateEnemyView(enemyData,slot.position,slot.rotation);
         enemyView.transform.parent = slot;
@@ -30,6 +31,7 @@ public class EnemyBoardView : MonoBehaviour
     /// <returns></returns>
     public IEnumerator RemoveEnemy(EnemyView enemyView)
     {
+        Debug.Log($"敌人面板：移除敌人 {enemyView.name}");
         EnemyViews.Remove(enemyView);
         Tween tween = Tween.Scale(enemyView.transform, Vector3.zero, 0.25f);
         yield return tween;

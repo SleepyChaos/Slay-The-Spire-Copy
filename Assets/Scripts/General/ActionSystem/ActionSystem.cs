@@ -9,6 +9,15 @@ public class ActionSystem : MonoSingleton<ActionSystem>
     private List<GameAction> reactions = null;
     //正在执行 属性
     public bool IsPerforming { get; private set; } = false;
+    
+    /// <summary>
+    /// 强制重置 IsPerforming 状态（用于紧急情况）
+    /// </summary>
+    public void ForceResetPerforming()
+    {
+        Debug.LogWarning("⚠️ 强制重置 IsPerforming 状态！");
+        IsPerforming = false;
+    }
     // 事件订阅系统（按事件类型分类存储）
     private static Dictionary<Type, List<Action<GameAction>>> preSubs = new Dictionary<Type, List<Action<GameAction>>>();
     private static Dictionary<Type, List<Action<GameAction>>> postSubs = new Dictionary<Type, List<Action<GameAction>>>();
@@ -24,11 +33,16 @@ public class ActionSystem : MonoSingleton<ActionSystem>
     public void Perform(GameAction action, Action OnPerformFinished = null)
     {
         if (IsPerforming)
+        {
+            Debug.LogWarning($"⚠️ 尝试执行事件 {action.GetType().Name}，但 ActionSystem 正在执行中，事件被忽略");
             return;
+        }
         IsPerforming = true;
+        Debug.Log($"开始执行事件：{action.GetType().Name}");
         StartCoroutine(Flow(action, () =>
         {
             IsPerforming = false;
+            Debug.Log($"✅ 事件 {action.GetType().Name} 执行完成，IsPerforming 已重置为 false");
             OnPerformFinished?.Invoke();
         }));
     }

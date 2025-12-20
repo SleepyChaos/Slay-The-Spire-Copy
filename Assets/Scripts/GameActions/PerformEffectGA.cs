@@ -11,5 +11,6 @@ public class PerformEffectGA : GameAction
     {
         Effect = effect;
         Targets = targets == null ? null : targets;
+        Debug.Log($"创建执行效果事件：{effect.GetType().Name}，目标数：{(targets == null ? 0 : targets.Count)}");
     }
 }

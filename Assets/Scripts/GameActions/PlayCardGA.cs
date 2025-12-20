@@ -13,11 +13,13 @@ public class PlayCardGA : GameAction
     {
         Card = card;
         ManualTarget = null;
+        Debug.Log($"创建打出卡牌事件：{card.Title}");
     }
 
     public PlayCardGA(Card card, EnemyView target)
     {
         Card = card;
         ManualTarget = target;
+        Debug.Log($"创建打出卡牌事件（手动目标）：{card.Title} -> {target.name}");
     }
 }

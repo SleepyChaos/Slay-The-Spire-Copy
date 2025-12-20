@@ -17,27 +17,7 @@ MonoBehaviour:
   <Health>k__BackingField: 44
   <Deck>k__BackingField:
   - {fileID: 11400000, guid: 45b027f22200f2a47b6dfb9b19ce5704, type: 2}
-  - {fileID: 11400000, guid: 45b027f22200f2a47b6dfb9b19ce5704, type: 2}
-  - {fileID: 11400000, guid: 45b027f22200f2a47b6dfb9b19ce5704, type: 2}
-  - {fileID: 11400000, guid: 45b027f22200f2a47b6dfb9b19ce5704, type: 2}
-  - {fileID: 11400000, guid: 45b027f22200f2a47b6dfb9b19ce5704, type: 2}
-  - {fileID: 11400000, guid: 6a98e50888b587e4696ae83cd800e4e7, type: 2}
-  - {fileID: 11400000, guid: 6a98e50888b587e4696ae83cd800e4e7, type: 2}
-  - {fileID: 11400000, guid: 6a98e50888b587e4696ae83cd800e4e7, type: 2}
-  - {fileID: 11400000, guid: 6a98e50888b587e4696ae83cd800e4e7, type: 2}
-  - {fileID: 11400000, guid: 6a98e50888b587e4696ae83cd800e4e7, type: 2}
-  - {fileID: 11400000, guid: a83d97810ce916344a44c533b8084192, type: 2}
-  - {fileID: 11400000, guid: a83d97810ce916344a44c533b8084192, type: 2}
-  - {fileID: 11400000, guid: a83d97810ce916344a44c533b8084192, type: 2}
-  - {fileID: 11400000, guid: a83d97810ce916344a44c533b8084192, type: 2}
-  - {fileID: 11400000, guid: a83d97810ce916344a44c533b8084192, type: 2}
   - {fileID: 11400000, guid: 2fdfa171c4195764596517b6575ed7bf, type: 2}
-  - {fileID: 11400000, guid: 2fdfa171c4195764596517b6575ed7bf, type: 2}
-  - {fileID: 11400000, guid: 2fdfa171c4195764596517b6575ed7bf, type: 2}
-  - {fileID: 11400000, guid: 2fdfa171c4195764596517b6575ed7bf, type: 2}
-  - {fileID: 11400000, guid: 2fdfa171c4195764596517b6575ed7bf, type: 2}
-  - {fileID: 11400000, guid: d51fcc3b73bdb6e49b2c1030c0d72e31, type: 2}
-  - {fileID: 11400000, guid: d51fcc3b73bdb6e49b2c1030c0d72e31, type: 2}
-  - {fileID: 11400000, guid: d51fcc3b73bdb6e49b2c1030c0d72e31, type: 2}
-  - {fileID: 11400000, guid: d51fcc3b73bdb6e49b2c1030c0d72e31, type: 2}
-  - {fileID: 11400000, guid: d51fcc3b73bdb6e49b2c1030c0d72e31, type: 2}
+  - {fileID: 11400000, guid: 483c6b5b5b065485f87f6e9aa54c6977, type: 2}
+  - {fileID: 11400000, guid: aa7a81a8ef9684c25b220cc5707c2875, type: 2}
+  <StartingPerks>k__BackingField: []

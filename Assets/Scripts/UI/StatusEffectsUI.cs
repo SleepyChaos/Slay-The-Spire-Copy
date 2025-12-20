@@ -11,6 +11,7 @@ public class StatusEffectsUI : MonoBehaviour
 
     public void UpdateStatusEffectUI(StatusEffectType statusEffectType, int stackCount)
     {
+        Debug.Log($"更新状态UI：{statusEffectType} 层数 {stackCount}");
         if (stackCount == 0)
         {
             if (statusEffectUIs.ContainsKey(statusEffectType))

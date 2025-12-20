@@ -12,6 +12,7 @@ public class StatusEffectUI : MonoBehaviour
 
     public void Set(Sprite sprite, int stackCount)
     {
+        Debug.Log($"设置状态图标：{sprite?.name ?? "无"} 层数 {stackCount}");
         image.sprite = sprite;
         stackCountText.text = stackCount.ToString();
     }

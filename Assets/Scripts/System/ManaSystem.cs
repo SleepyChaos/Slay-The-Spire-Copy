@@ -46,6 +46,7 @@ public class ManaSystem : MonoSingleton<ManaSystem>
 
     private IEnumerator SpendManaPerformer(SpendManaGA spendManaGA)
     {
+        Debug.Log($"能量系统：消耗能量 {spendManaGA.Amount}");
         currentMana -= spendManaGA.Amount;
         manaUI.UpdateMana(currentMana);
         yield return null;

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7baddb6fbc93a8744a7f75376695118d, type: 3}
+  m_Name: "\u71C3\u8840\u667A\u8C0B"
+  m_EditorClassIdentifier: 
+  <Description>k__BackingField: "\u83B7\u5F974\u5C42\u71C3\u70E7\uFF0C\u62BD3\u5F20\u724C"
+  <Mana>k__BackingField: 1
+  <Image>k__BackingField: {fileID: 0}
+  <ManualTargetEffect>k__BackingField:
+    rid: -2
+  <OtherEffects>k__BackingField:
+  - <TargetMode>k__BackingField:
+      rid: 5335103444021673987
+    <Effect>k__BackingField:
+      rid: 5335103444021673986
+  - <TargetMode>k__BackingField:
+      rid: 5335103444021673988
+    <Effect>k__BackingField:
+      rid: 5335103444021673993
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5335103444021673986
+      type: {class: AddStatusEffectEffect, ns: , asm: Assembly-CSharp}
+      data:
+        statusEffectType: 1
+        stackCount: 4
+    - rid: 5335103444021673987
+      type: {class: HeroTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5335103444021673988
+      type: {class: HeroTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5335103444021673993
+      type: {class: DrawCardEffect, ns: , asm: Assembly-CSharp}
+      data:
+        drawAmount: 3

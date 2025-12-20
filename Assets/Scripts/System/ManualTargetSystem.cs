@@ -11,6 +11,7 @@ public class ManualTargetSystem : MonoSingleton<ManualTargetSystem>
 
     public void StartTargeting(Vector3 startPosition)
     {
+        Debug.Log("开始手动选取目标：显示指向箭头");
         arrowView.gameObject.SetActive(true);
         arrowView.SetupArrow(startPosition);
     }
@@ -27,9 +28,11 @@ public class ManualTargetSystem : MonoSingleton<ManualTargetSystem>
             && hit.collider != null
             && hit.transform.TryGetComponent(out EnemyView enemyView))
         {
+            Debug.Log($"手动选取命中：{enemyView.name}");
             return enemyView;
         }
         
+        Debug.Log("手动选取未命中任何敌人");
         return null;
     }
 }

@@ -7,5 +7,7 @@ using UnityEngine;
 /// </summary>
 public class RefillManaGA : GameAction
 {
-    
+    public RefillManaGA(){
+        Debug.Log("创建回满能量事件");
+    }
 }

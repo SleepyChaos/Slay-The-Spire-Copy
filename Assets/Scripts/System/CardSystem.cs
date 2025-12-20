@@ -37,11 +37,25 @@ public class CardSystem : MonoSingleton<CardSystem>
     /// <param name="deckData"></param>
     public void SetUp(List<CardData> deckData)
     {
+        Debug.Log("═══════════════════════════════════════════════════════════");
+        Debug.Log("🎴 【牌库初始化】CardSystem.SetUp 开始初始化牌库");
+        Debug.Log("═══════════════════════════════════════════════════════════");
+        Debug.Log($"📋 牌库数据:");
+        Debug.Log($"   - 卡牌数量: {deckData.Count}");
+        
+        // 清空旧的抽牌堆
+        drawPile.Clear();
+        Debug.Log("   - 已清空旧的抽牌堆");
+        
         foreach (var cardData in deckData)
         {
             Card card = new Card(cardData);
             drawPile.Add(card);
+            Debug.Log($"   - 添加卡牌到抽牌堆: {cardData.name}");
         }
+        
+        Debug.Log($"✅ 牌库初始化完成，抽牌堆中有 {drawPile.Count} 张卡牌");
+        Debug.Log("═══════════════════════════════════════════════════════════");
     }
 
     /// <summary>
@@ -51,6 +65,7 @@ public class CardSystem : MonoSingleton<CardSystem>
     /// <returns></returns>
     private IEnumerator PlayCardPerformer(PlayCardGA playCardGA)
     {
+        Debug.Log($"开始处理打出卡牌：{playCardGA.Card.Title}");
         //从数据和显示中都移除当前使用掉的牌 同时记录使用的是什么
         hand.Remove(playCardGA.Card);
         CardView cardView = handView.RemoveCard(playCardGA.Card);
@@ -141,12 +156,51 @@ public class CardSystem : MonoSingleton<CardSystem>
     /// <returns></returns>
     private IEnumerator DrawCard()
     {
+        // 检查抽牌堆是否为空
+        if (drawPile.Count == 0)
+        {
+            Debug.LogWarning("⚠️ 抽牌堆为空，尝试从弃牌堆重新填充...");
+            RefillDeck();
+            
+            // 如果重新填充后仍然为空，无法抽牌
+            if (drawPile.Count == 0)
+            {
+                Debug.LogError("❌ 抽牌堆和弃牌堆都为空！无法抽牌。");
+                yield break;
+            }
+        }
+        
         //从抽牌堆随机抽取一张 删除原本抽牌堆中的牌
         Card card = drawPile.Draw();
+        
+        // 检查抽到的卡牌是否有效
+        if (card == null)
+        {
+            Debug.LogError("❌ 抽到的卡牌为空！");
+            yield break;
+        }
+        
+        Debug.Log($"✅ 抽到卡牌: {card.Title}");
+        
         //增加到手牌链表
         hand.Add(card);
+        
+        // 检查 CardViewCreator 是否可用
+        if (CardViewCreator.Instance == null)
+        {
+            Debug.LogError("❌ CardViewCreator.Instance 为空！无法创建卡牌视图。");
+            yield break;
+        }
+        
         //增加抽到手中的视觉效果
         CardView cardView = CardViewCreator.Instance.CreateCardView(card, drawPilePoint.position, drawPilePoint.rotation);
+        
+        if (cardView == null)
+        {
+            Debug.LogError("❌ 创建卡牌视图失败！");
+            yield break;
+        }
+        
         //等待卡牌到抽到手中的动画完成
         yield return handView.AddCard(cardView);
     }

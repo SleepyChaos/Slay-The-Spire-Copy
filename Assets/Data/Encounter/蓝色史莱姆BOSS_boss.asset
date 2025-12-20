@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654cf2ba3fe5d4b6ba3d6c7d1bbbe783, type: 3}
+  m_Name: "\u84DD\u8272\u53F2\u83B1\u59C6BOSS_boss"
+  m_EditorClassIdentifier: 
+  encounterType: 2
+  encounterName: "boss\u6218"
+  description: 
+  enemyPool:
+  - {fileID: 11400000, guid: f3520f321f29244dc8002229a6bc3cff, type: 2}
+  enemyCount: 4
+  selectionMode: 1
+  minStageIndex: 0
+  maxStageIndex: -1
+  weight: 10

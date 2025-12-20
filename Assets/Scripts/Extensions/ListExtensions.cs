@@ -11,6 +11,7 @@ public static class ListExtensions
         int r = Random.Range(0, list.Count);
         T t = list[r];
         list.Remove(t); 
+        Debug.Log($"从列表中抽取元素：{t}");
         return t;
     }
 }

@@ -7,6 +7,7 @@ public class OnEnemyAttackCondition : PerkCondition
 {
     public override void SubscribeCondition(Action<GameAction> reaction)
     {
+        Debug.Log("天赋条件：订阅敌人攻击事件");
         ActionSystem.SubscribeReaction<AttackHeroGA>(reaction, reactionTiming);   
     }
 

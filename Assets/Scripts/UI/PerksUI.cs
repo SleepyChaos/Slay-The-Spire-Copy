@@ -11,6 +11,7 @@ public class PerksUI : MonoBehaviour
 
     public void AddPerlUI(Perk perk)
     {
+        Debug.Log("天赋UI：添加天赋图标");
         PerkUI perkUI = Instantiate(perkUIPrefab,transform);
         perkUI.Setup(perk);
         perkUIs.Add(perkUI);
@@ -18,6 +19,7 @@ public class PerksUI : MonoBehaviour
 
     public void RemovePerlUI(Perk perk)
     {
+        Debug.Log("天赋UI：移除天赋图标");
         PerkUI perkUI = perkUIs.Where(pui => pui.Perk == perk).FirstOrDefault();
         if (perkUI != null)
         {

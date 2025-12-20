@@ -13,5 +13,6 @@ public class PerkUI : MonoBehaviour
     {
         Perk = perk;
         image.sprite = perk.Image;
+        Debug.Log("天赋UI：设置天赋图标");
     }
 }

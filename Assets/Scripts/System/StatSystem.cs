@@ -17,6 +17,7 @@ public class StatSystem : MonoBehaviour
 
     private IEnumerator IncreaseStatsPerformer(IncreaseStatsGA increaseStatsGA)
     {
+        Debug.Log($"属性系统：提升攻击 +{increaseStatsGA.AttackIncreaseAmount}，生命 +{increaseStatsGA.HealthIncreaseAmount}");
         int attack = increaseStatsGA.AttackIncreaseAmount;
         int health = increaseStatsGA.HealthIncreaseAmount;
         yield return increaseStatsGA.Target.IncreaseAttackAndHealth(attack, health);

@@ -12,6 +12,7 @@ public class AttackHeroGA : GameAction, IHaveCaster
     {
         Attacker = attacker;
         Caster = Attacker;
+        Debug.Log($"创建敌人攻击事件：{attacker.name}");
     }
 
 }

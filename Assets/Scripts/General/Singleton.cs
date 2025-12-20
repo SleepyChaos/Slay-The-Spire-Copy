@@ -18,6 +18,7 @@ public class Singleton<T> where T : class, new()
                     if (_instance == null)
                     {
                         _instance = new T();
+                        System.Diagnostics.Debug.WriteLine($"创建纯C#单例实例：{typeof(T)}");
                     }
                 }
             }

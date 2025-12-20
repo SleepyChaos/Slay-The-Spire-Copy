@@ -19,6 +19,7 @@ public class Perk
     public void OnAdd()
     {
         condition.SubscribeCondition(Reaction);    
+        Debug.Log("天赋激活：开始监听条件");
     }
 
     public void OnRemove()

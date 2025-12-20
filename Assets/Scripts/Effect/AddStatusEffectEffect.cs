@@ -9,6 +9,7 @@ public class AddStatusEffectEffect : Effect
     
     public override GameAction GetGameAction(List<CombatantView> targets, CombatantView caster)
     {
+        Debug.Log($"效果：添加状态 {statusEffectType} 层数 {stackCount}");
         return new AddStatusEffectGA(statusEffectType, stackCount, targets);
     }
 }

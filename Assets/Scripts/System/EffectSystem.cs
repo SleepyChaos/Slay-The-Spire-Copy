@@ -17,6 +17,7 @@ public class EffectSystem : MonoBehaviour
 
     private IEnumerator PerformEffectPerformer(PerformEffectGA performEffectGA)
     {
+        Debug.Log($"效果系统执行：{performEffectGA.Effect.GetType().Name}，目标数：{performEffectGA.Targets?.Count ?? 0}");
         GameAction effectAction = performEffectGA.Effect.GetGameAction(performEffectGA.Targets, HeroSystem.Instance.HeroView);
         ActionSystem.Instance.AddReaction(effectAction);
         yield return null;

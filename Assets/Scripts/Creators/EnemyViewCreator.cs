@@ -6,7 +6,6 @@ public class EnemyViewCreator : MonoSingleton<EnemyViewCreator>
 {
     [SerializeField] private EnemyView enemyViewPrefab;
 
-
     /// <summary>
     /// 生成新的敌人
     /// </summary>
@@ -16,6 +15,7 @@ public class EnemyViewCreator : MonoSingleton<EnemyViewCreator>
     /// <returns></returns>
     public EnemyView CreateEnemyView(EnemyData enemyData, Vector3 position, Quaternion rotation)
     {
+        Debug.Log($"创建敌人视图：{enemyData.name}");
         EnemyView enemyView = Instantiate(enemyViewPrefab, position, rotation);
         enemyView.Setup(enemyData);
         return enemyView;

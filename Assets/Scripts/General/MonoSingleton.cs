@@ -48,6 +48,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
         {
             _instance = this as T;
             //DontDestroyOnLoad(gameObject);
+            Debug.Log($"创建单例实例：{typeof(T)}");
         }
         else if (_instance != this)
         {

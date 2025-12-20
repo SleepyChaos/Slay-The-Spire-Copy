@@ -11,6 +11,7 @@ public class EnemyView : CombatantView
 
     public void Setup(EnemyData enemyData)
     {
+        Debug.Log($"生成敌人：{enemyData.name} HP:{enemyData.Health} ATK:{enemyData.AttackPower}");
         AttackPower = enemyData.AttackPower;
         UpdateAttackText();
         SetupBase(enemyData.Health, enemyData.Image);

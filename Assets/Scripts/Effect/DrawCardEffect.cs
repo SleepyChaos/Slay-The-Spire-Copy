@@ -11,6 +11,7 @@ public class DrawCardEffect : Effect
     
     public override GameAction GetGameAction(List<CombatantView> targets, CombatantView caster)
     {
+        Debug.Log($"效果：抽牌 {drawAmount}");
         DrawCardsGA drawCardsGA = new DrawCardsGA(drawAmount);
         return drawCardsGA; 
     }

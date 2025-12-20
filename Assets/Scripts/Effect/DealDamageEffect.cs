@@ -8,6 +8,7 @@ public class DealDamageEffect : Effect
     
     public override GameAction GetGameAction(List<CombatantView> targets, CombatantView caster)
     {
+        Debug.Log($"效果：造成伤害 {damageAmount}");
         DealDamageGA dealDamageGA = new DealDamageGA(damageAmount,targets,caster);
         return dealDamageGA;
     }

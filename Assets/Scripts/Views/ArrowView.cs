@@ -21,6 +21,7 @@ public class ArrowView : MonoBehaviour
 
     public void SetupArrow(Vector3 startPosition)
     {
+        Debug.Log("箭头视图：开始指示目标");
         this.startPosition = startPosition;
         lineRenderer.SetPosition(0, startPosition);
         lineRenderer.SetPosition(1, MouseUtil.GetMousePositionInWorldSpace());

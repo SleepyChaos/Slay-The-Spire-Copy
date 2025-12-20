@@ -14,5 +14,6 @@ public class DrawCardsGA : GameAction
     public DrawCardsGA(int amount)
     {
         Amount = amount;
+        Debug.Log($"创建抽卡事件：{amount}");
     }
 }

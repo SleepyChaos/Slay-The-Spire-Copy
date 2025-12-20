@@ -23,5 +23,6 @@ public class Card
     {
         data = cardData;
         Mana = cardData.Mana;
+        Debug.Log($"创建卡牌数据：{data.name} 法力消耗 {Mana}");
     }
 }

@@ -6,4 +6,7 @@ using UnityEngine;
 public abstract class TargetMode
 {
     public abstract List<CombatantView> GetTargets();
+    static TargetMode(){
+        Debug.Log("TargetMode 基类已加载");
+    }
 }

@@ -21,6 +21,7 @@ public class HandView : MonoBehaviour
     /// <returns></returns>
     public IEnumerator AddCard(CardView cardView)
     {
+        Debug.Log($"手牌区添加卡牌：{cardView.Card.Title}");
         cards.Add(cardView);
         yield return UpdateCardPositions(0.15f);
     }

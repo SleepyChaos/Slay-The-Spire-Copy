@@ -6,6 +6,7 @@ public class RandomEnemyTM : TargetMode
 {
     public override List<CombatantView> GetTargets()
     {
+        Debug.Log("目标模式：随机敌人");
         CombatantView target = EnemySystem.Instance.Enemies[Random.Range(0,EnemySystem.Instance.Enemies.Count)];
         return new List<CombatantView>() { target };
     }

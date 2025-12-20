@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654cf2ba3fe5d4b6ba3d6c7d1bbbe783, type: 3}
+  m_Name: "\u53F2\u83B1\u59C6\u7CBE\u82F1\u6218_elite"
+  m_EditorClassIdentifier: 
+  encounterType: 1
+  encounterName: "\u53F2\u83B1\u59C6\u8FDE\u7EC4"
+  description: 
+  enemyPool:
+  - {fileID: 11400000, guid: 8afd5252cef584d4399b7ff52db3d859, type: 2}
+  - {fileID: 11400000, guid: 3313198755c63b24e8feffe131b446fa, type: 2}
+  - {fileID: 11400000, guid: 8afd5252cef584d4399b7ff52db3d859, type: 2}
+  enemyCount: 3
+  selectionMode: 1
+  minStageIndex: 0
+  maxStageIndex: -1
+  weight: 10

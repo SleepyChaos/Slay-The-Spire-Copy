@@ -24,6 +24,7 @@ public class StatusEffectSystem : MonoBehaviour
     /// <returns></returns>
     private IEnumerator AddStatusEffectPerformer(AddStatusEffectGA addStatusEffectGA)
     {
+        Debug.Log($"状态系统：添加 {addStatusEffectGA.StatusEffectType} 层数 {addStatusEffectGA.StackCount} 到 {addStatusEffectGA.Targets.Count} 个目标");
         foreach (var target in addStatusEffectGA.Targets)
         {
             Instantiate(armorEffectFX, target.transform);

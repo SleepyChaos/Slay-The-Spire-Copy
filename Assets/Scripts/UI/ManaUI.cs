@@ -9,6 +9,7 @@ public class ManaUI : MonoBehaviour
 
     public void UpdateMana(int currentMana)
     {
+        Debug.Log($"更新能量UI：{currentMana}");
         mana.text = currentMana.ToString(); 
     }
 }

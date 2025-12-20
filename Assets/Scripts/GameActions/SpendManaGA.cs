@@ -12,5 +12,6 @@ public class SpendManaGA : GameAction
     public SpendManaGA(int amount)
     {
         Amount = amount;
+        Debug.Log($"创建消耗能量事件：{amount}");
     }
 }
