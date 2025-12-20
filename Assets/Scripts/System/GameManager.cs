@@ -31,6 +31,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void StartNewRun(HeroData heroData)
     {
+        Debug.Log("═══════════════════════════════════════════════════════════");
+        Debug.Log("🎮 【开始新游戏】GameManager.StartNewRun 被调用");
+        Debug.Log("═══════════════════════════════════════════════════════════");
+        
         CurrentStageIndex = 0; // 重置关卡
         MaxHealth = heroData.Health;
         CurrentHealth = heroData.Health;
@@ -40,8 +44,84 @@ public class GameManager : MonoSingleton<GameManager>
         
         Relics.Clear();
         if(heroData.StartingPerks != null) Relics.AddRange(heroData.StartingPerks);
+        
+        Debug.Log($"📋 游戏初始化完成:");
+        Debug.Log($"   - 关卡索引: {CurrentStageIndex}");
+        Debug.Log($"   - 玩家血量: {CurrentHealth}/{MaxHealth}");
+        Debug.Log($"   - 牌库数量: {MasterDeck.Count}");
+        Debug.Log($"   - 遗物数量: {Relics.Count}");
 
-        SceneManager.LoadScene("LevelSelectScene"); // 去选关页面
+        // 【关键修复】检查当前场景，只有在 StartScene 中才自动开始游戏
+        // 如果是从其他场景调用（比如返回主菜单后），不应该自动开始
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        bool isInStartScene = currentSceneName == "StartScene" || 
+                             (BattleFlowManager.Instance != null && 
+                              currentSceneName == BattleFlowManager.Instance.startSceneName);
+        
+        Debug.Log($"   - 当前场景: {currentSceneName}");
+        Debug.Log($"   - 是否在开始场景: {isInStartScene}");
+        
+        // 检查是否使用固定顺序流程
+        if (EncounterManager.Instance != null && EncounterManager.Instance.useFixedSequence)
+        {
+            // 【关键修复】只有在 StartScene 中才自动开始游戏
+            // 如果是从其他场景调用（比如返回主菜单后），不应该自动开始
+            if (!isInStartScene)
+            {
+                Debug.LogWarning("⚠️ 不在 StartScene 中，跳过自动开始游戏");
+                Debug.LogWarning("   - 这是正常的，返回主菜单时不应该自动开始游戏");
+                return;
+            }
+            
+            Debug.Log("🎯 检测到固定顺序流程，直接进入第一关战斗");
+            
+            // 检查 EncounterManager 是否配置了遭遇序列
+            if (EncounterManager.Instance.encounterSequence == null || EncounterManager.Instance.encounterSequence.Count == 0)
+            {
+                Debug.LogError("❌ EncounterManager.encounterSequence 为空！无法开始游戏。");
+                Debug.LogError("💡 请在 EncounterManager 的 Inspector 中配置 Encounter Sequence 列表。");
+                return;
+            }
+            
+            // 获取第一关的遭遇（索引 0）
+            EncounterData firstEncounter = EncounterManager.Instance.GetEncounterByIndex(0);
+            
+            if (firstEncounter == null)
+            {
+                Debug.LogError("❌ 无法获取第一关的遭遇数据！");
+                Debug.LogError("💡 请确保 Encounter Sequence 的第一个元素已正确设置。");
+                return;
+            }
+            
+            Debug.Log($"✅ 第一关遭遇: {firstEncounter.encounterName} ({firstEncounter.encounterType})");
+            
+            // 直接开始第一关战斗
+            if (BattleFlowManager.Instance != null)
+            {
+                Debug.Log("🚀 准备开始第一关战斗...");
+                BattleFlowManager.Instance.StartBattle(firstEncounter);
+            }
+            else
+            {
+                Debug.LogError("❌ BattleFlowManager.Instance 为空！无法开始战斗。");
+                Debug.LogError("💡 请确保场景中有 BattleFlowManager 组件。");
+            }
+        }
+        else
+        {
+            // 随机选关模式：加载关卡选择界面
+            Debug.Log("🎲 随机选关模式，加载关卡选择界面");
+            string levelSelectSceneName = "LevelSelectScene";
+            if (BattleFlowManager.Instance != null && !string.IsNullOrEmpty(BattleFlowManager.Instance.levelSelectSceneName))
+            {
+                levelSelectSceneName = BattleFlowManager.Instance.levelSelectSceneName;
+            }
+            
+            Debug.Log($"🚀 正在加载关卡选择场景: {levelSelectSceneName}");
+            SceneManager.LoadScene(levelSelectSceneName);
+        }
+        
+        Debug.Log("═══════════════════════════════════════════════════════════");
     }
 
     public void AdvanceStage()
@@ -126,6 +206,26 @@ public class GameManager : MonoSingleton<GameManager>
                 Debug.Log($"   - 损失血量: {previousHealth - CurrentHealth}");
             }
 
+            // 【关键】检查是否是Boss战斗胜利
+            bool isBossBattle = false;
+            if (BattleFlowManager.Instance != null && BattleFlowManager.Instance.CurrentEncounter != null)
+            {
+                isBossBattle = BattleFlowManager.Instance.CurrentEncounter.encounterType == EncounterType.Boss;
+                Debug.Log($"   - 遭遇类型: {BattleFlowManager.Instance.CurrentEncounter.encounterType}");
+            }
+            
+            // 【关键修复】检查是否是最后一个关卡
+            bool isLastStage = false;
+            if (EncounterManager.Instance != null && EncounterManager.Instance.useFixedSequence)
+            {
+                int totalStages = EncounterManager.Instance.encounterSequence != null ? EncounterManager.Instance.encounterSequence.Count : 0;
+                // 当前关卡索引是 CurrentStageIndex，如果 CurrentStageIndex + 1 >= totalStages，说明这是最后一关
+                isLastStage = (CurrentStageIndex + 1) >= totalStages;
+                Debug.Log($"   - 当前关卡索引: {CurrentStageIndex}");
+                Debug.Log($"   - 总关卡数: {totalStages}");
+                Debug.Log($"   - 是否是最后一关: {isLastStage}");
+            }
+            
             // 检查是否还有下一关
             bool hasNext = false;
             if (EncounterManager.Instance != null && EncounterManager.Instance.useFixedSequence)
@@ -136,6 +236,48 @@ public class GameManager : MonoSingleton<GameManager>
             else
             {
                 Debug.Log($"   - 随机选关模式: 将返回选关界面");
+            }
+
+            // 【关键修复】如果是最后一个关卡（Boss或非Boss），直接显示胜利界面，不显示奖励界面
+            if (isLastStage)
+            {
+                Debug.Log("🎉 最后一关完成，显示胜利界面（跳过奖励界面）");
+                VictoryUI victoryUI = FindObjectOfType<VictoryUI>(true);
+                if (victoryUI != null)
+                {
+                    Debug.Log($"✅ 找到 VictoryUI: {victoryUI.gameObject.name}");
+                    victoryUI.Show();
+                }
+                else
+                {
+                    Debug.LogError("❌ 场景里找不到 VictoryUI 脚本！无法显示胜利界面。");
+                    Debug.LogError("💡 请确保场景中有 VictoryUI 组件，或者直接返回主菜单。");
+                    // 保底逻辑：直接返回主菜单
+                    string startSceneName = "StartScene";
+                    SceneManager.LoadScene(startSceneName);
+                }
+                return; // 不显示奖励界面
+            }
+
+            // 【关键】如果是Boss战斗胜利且没有下一关，显示胜利界面
+            if (isBossBattle && !hasNext)
+            {
+                Debug.Log("🎉 Boss战斗胜利且所有关卡已完成，显示胜利界面");
+                VictoryUI victoryUI = FindObjectOfType<VictoryUI>(true);
+                if (victoryUI != null)
+                {
+                    Debug.Log($"✅ 找到 VictoryUI: {victoryUI.gameObject.name}");
+                    victoryUI.Show();
+                }
+                else
+                {
+                    Debug.LogError("❌ 场景里找不到 VictoryUI 脚本！无法显示胜利界面。");
+                    Debug.LogError("💡 请确保场景中有 VictoryUI 组件，或者直接返回主菜单。");
+                    // 保底逻辑：直接返回主菜单
+                    string startSceneName = "StartScene";
+                    SceneManager.LoadScene(startSceneName);
+                }
+                return; // 不显示奖励界面
             }
 
             // 寻找并打开 UI

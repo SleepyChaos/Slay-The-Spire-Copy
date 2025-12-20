@@ -262,18 +262,66 @@ public class DeathUI : MonoBehaviour
         Debug.Log("🏠 【返回主菜单】玩家点击返回主菜单按钮");
         Debug.Log("═══════════════════════════════════════════════════════════");
         
+        // 禁用按钮，防止重复点击
+        if (returnToMenuButton != null)
+        {
+            returnToMenuButton.interactable = false;
+        }
+        
         // 隐藏界面
         HideUI();
         
-        // 加载主菜单场景
-        string startSceneName = "StartScene";
-        if (BattleFlowManager.Instance != null && !string.IsNullOrEmpty(BattleFlowManager.Instance.startSceneName))
+        // 【关键修复】重置 GameManager 状态（清除游戏进度）
+        if (GameManager.Instance != null)
         {
-            startSceneName = BattleFlowManager.Instance.startSceneName;
+            Debug.Log("🔄 重置 GameManager 状态...");
+            GameManager.Instance.CurrentStageIndex = 0;
+            GameManager.Instance.CurrentHealth = 0;
+            GameManager.Instance.MaxHealth = 0;
+            GameManager.Instance.MasterDeck.Clear();
+            GameManager.Instance.Relics.Clear();
+            GameManager.Instance.NextEnemies = null;
+            GameManager.Instance.IsEliteBattle = false;
+            Debug.Log("✅ GameManager 状态已重置");
+        }
+        
+        // 【关键修复】始终加载 StartScene，不依赖 BattleFlowManager 的配置
+        // 因为 BattleFlowManager 可能被错误配置为 SampleScene
+        string startSceneName = "StartScene";
+        
+        // 验证场景是否存在
+        bool sceneExists = false;
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
+            if (sceneName == startSceneName)
+            {
+                sceneExists = true;
+                break;
+            }
+        }
+        
+        if (!sceneExists)
+        {
+            Debug.LogError($"❌ 场景 '{startSceneName}' 不存在于 Build Settings 中！");
+            Debug.LogError("💡 请确保 StartScene 已添加到 Build Settings");
+            // 如果 StartScene 不存在，尝试使用 BattleFlowManager 的配置作为后备
+            if (BattleFlowManager.Instance != null && !string.IsNullOrEmpty(BattleFlowManager.Instance.startSceneName))
+            {
+                startSceneName = BattleFlowManager.Instance.startSceneName;
+                Debug.LogWarning($"⚠️ 使用 BattleFlowManager 的配置作为后备: {startSceneName}");
+            }
         }
         
         Debug.Log($"🚀 正在加载主菜单场景: {startSceneName}");
-        SceneManager.LoadScene(startSceneName);
+        Debug.Log("   - 这将卸载当前战斗场景，清除所有战斗状态");
+        Debug.Log("   - 注意：始终使用 'StartScene'，不依赖 BattleFlowManager 配置");
+        
+        // 使用 LoadSceneMode.Single 确保完全卸载当前场景
+        SceneManager.LoadScene(startSceneName, LoadSceneMode.Single);
+        
+        Debug.Log("═══════════════════════════════════════════════════════════");
     }
     
     /// <summary>
@@ -285,19 +333,66 @@ public class DeathUI : MonoBehaviour
         Debug.Log("🔄 【重试游戏】玩家点击重试按钮");
         Debug.Log("═══════════════════════════════════════════════════════════");
         
+        // 禁用按钮，防止重复点击
+        if (retryButton != null)
+        {
+            retryButton.interactable = false;
+        }
+        
         // 隐藏界面
         HideUI();
+        
+        // 【关键修复】重置 GameManager 状态（清除游戏进度）
+        if (GameManager.Instance != null)
+        {
+            Debug.Log("🔄 重置 GameManager 状态...");
+            GameManager.Instance.CurrentStageIndex = 0;
+            GameManager.Instance.CurrentHealth = 0;
+            GameManager.Instance.MaxHealth = 0;
+            GameManager.Instance.MasterDeck.Clear();
+            GameManager.Instance.Relics.Clear();
+            GameManager.Instance.NextEnemies = null;
+            GameManager.Instance.IsEliteBattle = false;
+            Debug.Log("✅ GameManager 状态已重置");
+        }
         
         // 重新开始游戏（需要从 StartScene 开始，或者直接调用 GameManager.StartNewRun）
         // 这里我们返回主菜单，让玩家重新开始
         string startSceneName = "StartScene";
-        if (BattleFlowManager.Instance != null && !string.IsNullOrEmpty(BattleFlowManager.Instance.startSceneName))
+        
+        // 验证场景是否存在
+        bool sceneExists = false;
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
-            startSceneName = BattleFlowManager.Instance.startSceneName;
+            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
+            if (sceneName == startSceneName)
+            {
+                sceneExists = true;
+                break;
+            }
+        }
+        
+        if (!sceneExists)
+        {
+            Debug.LogError($"❌ 场景 '{startSceneName}' 不存在于 Build Settings 中！");
+            Debug.LogError("💡 请确保 StartScene 已添加到 Build Settings");
+            // 如果 StartScene 不存在，尝试使用 BattleFlowManager 的配置作为后备
+            if (BattleFlowManager.Instance != null && !string.IsNullOrEmpty(BattleFlowManager.Instance.startSceneName))
+            {
+                startSceneName = BattleFlowManager.Instance.startSceneName;
+                Debug.LogWarning($"⚠️ 使用 BattleFlowManager 的配置作为后备: {startSceneName}");
+            }
         }
         
         Debug.Log($"🚀 正在加载主菜单场景: {startSceneName}");
-        SceneManager.LoadScene(startSceneName);
+        Debug.Log("   - 这将卸载当前战斗场景，清除所有战斗状态");
+        Debug.Log("   - 注意：始终使用 'StartScene'，不依赖 BattleFlowManager 配置");
+        
+        // 使用 LoadSceneMode.Single 确保完全卸载当前场景
+        SceneManager.LoadScene(startSceneName, LoadSceneMode.Single);
+        
+        Debug.Log("═══════════════════════════════════════════════════════════");
     }
 }
 

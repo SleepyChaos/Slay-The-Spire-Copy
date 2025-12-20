@@ -220,3 +220,4 @@ deathUI.deathMessageText.text = "自定义信息";
 按照上述步骤在 Unity 编辑器中设置 UI 结构，即可使用死亡界面功能！
 
 
+

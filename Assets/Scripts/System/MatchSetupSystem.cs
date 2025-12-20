@@ -14,6 +14,41 @@ public class MatchSetupSystem : MonoBehaviour
         Debug.Log("═══════════════════════════════════════════════════════════");
         Debug.Log("🎯 【战斗初始化】MatchSetupSystem 开始初始化战斗");
         Debug.Log("═══════════════════════════════════════════════════════════");
+        Debug.Log($"   - 当前场景: {UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}");
+        
+        // 【关键检查】如果当前场景不是战斗场景，不执行初始化
+        // 这可以防止在 StartScene 或其他场景中意外初始化战斗
+        string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        string battleSceneName = "BattleScene";
+        if (BattleFlowManager.Instance != null && !string.IsNullOrEmpty(BattleFlowManager.Instance.battleSceneName))
+        {
+            battleSceneName = BattleFlowManager.Instance.battleSceneName;
+        }
+        
+        // 检查是否是战斗场景
+        bool isBattleScene = currentSceneName == battleSceneName || 
+                            currentSceneName == "SampleScene" || 
+                            currentSceneName.Contains("Battle");
+        
+        // 明确排除的场景（不应该初始化战斗）
+        bool isExcludedScene = currentSceneName == "StartScene" || 
+                              currentSceneName == "LevelSelectScene" ||
+                              currentSceneName.Contains("Start") ||
+                              currentSceneName.Contains("Menu");
+        
+        if (isExcludedScene)
+        {
+            Debug.LogWarning($"⚠️ MatchSetupSystem 在非战斗场景中 ({currentSceneName})，跳过初始化");
+            Debug.LogWarning($"   - 这是 {currentSceneName}，不应该初始化战斗");
+            return;
+        }
+        
+        if (!isBattleScene)
+        {
+            Debug.LogWarning($"⚠️ MatchSetupSystem 在未知场景中 ({currentSceneName})");
+            Debug.LogWarning($"   - 预期战斗场景: {battleSceneName} 或 SampleScene");
+            Debug.LogWarning($"   - 如果这不是战斗场景，请确保场景名称正确");
+        }
         
         // === 1. 尝试从全局管理器读取数据 ===
         if (GameManager.Instance != null)

@@ -118,9 +118,38 @@ public class BattleFlowManager : MonoSingleton<BattleFlowManager>
     /// </summary>
     public void GoToStartScene()
     {
-        Debug.Log($"🏠 返回开始界面: {startSceneName}");
+        // 【关键修复】始终使用 StartScene，不依赖配置
+        string targetSceneName = "StartScene";
+        
+        // 验证场景是否存在
+        bool sceneExists = false;
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
+            if (sceneName == targetSceneName)
+            {
+                sceneExists = true;
+                break;
+            }
+        }
+        
+        if (!sceneExists)
+        {
+            Debug.LogError($"❌ 场景 '{targetSceneName}' 不存在于 Build Settings 中！");
+            Debug.LogError("💡 请确保 StartScene 已添加到 Build Settings");
+            // 如果 StartScene 不存在，使用配置的场景作为后备
+            if (!string.IsNullOrEmpty(startSceneName))
+            {
+                targetSceneName = startSceneName;
+                Debug.LogWarning($"⚠️ 使用 BattleFlowManager 的配置作为后备: {targetSceneName}");
+            }
+        }
+        
+        Debug.Log($"🏠 返回开始界面: {targetSceneName}");
+        Debug.Log("   - 注意：始终使用 'StartScene'，不依赖 BattleFlowManager 配置");
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.LoadScene(startSceneName);
+        SceneManager.LoadScene(targetSceneName);
     }
     
     /// <summary>

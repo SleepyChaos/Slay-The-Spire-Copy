@@ -11,6 +11,21 @@ public class LevelSelectController : MonoBehaviour
     
     private void Start()
     {
+        // 【关键修复】检查当前场景，LevelSelectController 不应该在 StartScene 中运行
+        string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        string startSceneName = "StartScene";
+        if (BattleFlowManager.Instance != null && !string.IsNullOrEmpty(BattleFlowManager.Instance.startSceneName))
+        {
+            startSceneName = BattleFlowManager.Instance.startSceneName;
+        }
+        
+        if (currentSceneName == startSceneName)
+        {
+            Debug.LogWarning($"⚠️ LevelSelectController 在 StartScene ({currentSceneName}) 中，跳过初始化");
+            Debug.LogWarning("   - LevelSelectController 应该只在 LevelSelectScene 中使用");
+            return;
+        }
+        
         // 检查是否使用固定顺序流程
         if (EncounterManager.Instance != null && EncounterManager.Instance.useFixedSequence)
         {

@@ -7,6 +7,7 @@ public class Interactions : MonoSingleton<Interactions>
     public bool PlayerIsDragging { get; set; } = false;
     public bool IsRewardUIOpen { get; set; } = false; // 奖励界面是否打开
     public bool IsDeathUIOpen { get; set; } = false;  // 死亡界面是否打开
+    public bool IsVictoryUIOpen { get; set; } = false; // 胜利界面是否打开
 
 
     public bool PlayerCanInteract()
@@ -17,6 +18,10 @@ public class Interactions : MonoSingleton<Interactions>
             
         // 如果死亡界面打开，禁止战斗交互
         if (IsDeathUIOpen)
+            return false;
+            
+        // 如果胜利界面打开，禁止战斗交互
+        if (IsVictoryUIOpen)
             return false;
             
         if(!ActionSystem.Instance.IsPerforming)
@@ -39,6 +44,10 @@ public class Interactions : MonoSingleton<Interactions>
             
         // 如果死亡界面打开，禁止悬停效果
         if (IsDeathUIOpen)
+            return false;
+            
+        // 如果胜利界面打开，禁止悬停效果
+        if (IsVictoryUIOpen)
             return false;
             
         if (PlayerIsDragging)
